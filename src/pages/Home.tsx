@@ -1,26 +1,55 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import {
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLabel,
+  IonList,
+  IonListHeader,
+  IonPage,
+  IonSearchbar,
+  IonTitle,
+  IonToolbar
+} from "@ionic/react";
+import React, { Component } from "react";
+import Gig from "../components/gig";
 
-const Home: React.FC = () => {
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Ionic Blank</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding">
-        The world is your oyster.
-        <p>
-          If you get lost, the{' '}
-          <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/">
-            docs
-          </a>{' '}
-          will be your guide.
-        </p>
-      </IonContent>
-    </IonPage>
-  );
-};
-
-export default Home;
+export default class Home extends Component {
+  loadData = () => {};
+  render() {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar color="primary">
+            <IonSearchbar />
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonInfiniteScroll threshold="100px" onIonInfinite={this.loadData}>
+            <IonInfiniteScrollContent
+              loadingSpinner="bubbles"
+              loadingText="Loading more gigs..."
+            >
+              <IonList>
+                <IonListHeader>
+                  <IonLabel>TWITTER RECENT GIGS</IonLabel>
+                </IonListHeader>
+                <Gig />
+                <Gig />
+                <Gig />
+                <Gig />
+                <Gig />
+              </IonList>
+            </IonInfiniteScrollContent>
+          </IonInfiniteScroll>
+        </IonContent>
+        <IonFooter mode="ios">
+          <IonToolbar color="default" mode="ios">
+            <IonTitle>#GigsTwitter</IonTitle>
+          </IonToolbar>
+        </IonFooter>
+      </IonPage>
+    );
+  }
+}

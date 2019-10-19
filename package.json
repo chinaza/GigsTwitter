@@ -40,5 +40,11 @@
       "last 1 safari version"
     ]
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-react-hooks": "^2.1.2",
+    "tslint": "^5.20.0",
+    "tslint-react": "^4.1.0"
+  }
 }
