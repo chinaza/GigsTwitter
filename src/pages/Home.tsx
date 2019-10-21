@@ -25,16 +25,43 @@ export default class Home extends Component {
     tweets: []
   };
 
+  getLocation = () =>
+    new Promise(async (resolve, reject) => {
+      const loading = await UiCtrl.presentLoading();
+      if (!navigator.geolocation) return false;
+
+      // Get the user's current position
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          loading.dismiss();
+          resolve(pos.coords);
+        },
+        err => {
+          loading.dismiss();
+          resolve(false);
+        }
+      );
+    });
+
   loadData = async () => {
     const { q } = this.state;
 
     const loading = await UiCtrl.presentLoading();
     try {
+      let locData: any = await this.getLocation();
+      const pos = locData.latitude
+        ? {
+            latitude: Number(locData.latitude),
+            longitude: Number(locData.longitude)
+          }
+        : false;
+
       const { response } = await this.http.makeRequest({
         url: "/gigs",
-        method: "get",
+        method: "post",
         data: {
-          q
+          q,
+          pos
         }
       });
 
@@ -54,7 +81,8 @@ export default class Home extends Component {
     if (e.key.toLowerCase() === "enter") this.loadData();
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.getLocation();
     this.loadData();
   }
   render() {
