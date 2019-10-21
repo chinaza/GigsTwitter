@@ -1,28 +1,58 @@
 import { IonAvatar, IonButton, IonImg, IonItem, IonLabel } from "@ionic/react";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds
+} from "date-fns";
 import React from "react";
 
-const Gig: React.FC = () => (
-  <IonItem
-    href="https://twitter.com/AssisttohireNow/status/1181196988831977478"
-    target="_blank"
-  >
-    <IonAvatar slot="start">
-      <IonImg src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==" />
-    </IonAvatar>
-    <div>
-      <IonLabel className="f-18 m-t-5">
-        Mark Essien
-        <span slot="end" className="posted">
-          2d ago
-        </span>
-      </IonLabel>
-      <p className="dark-gray m-t-5 m-b-5">
-        Graduate Jobs: Software Developer or Software Architect needed at
-        Jerrilods Technology in Abuja. Send CV to Jobs@jerrilodsnigerialtd.com
-      </p>
-      <IonButton className="m-b-10">Apply</IonButton>
-    </div>
-  </IonItem>
-);
+const Gig: React.FC<{ tweet: any }> = ({ tweet }) => {
+  const diffDay =
+    differenceInDays(new Date(), new Date(tweet.created_at)) + "d";
+  const diffHour =
+    differenceInHours(new Date(), new Date(tweet.created_at)) + "h";
+  const diffMin =
+    differenceInMinutes(new Date(), new Date(tweet.created_at)) + "m";
+  const diffSec =
+    differenceInSeconds(new Date(), new Date(tweet.created_at)) + "s";
+
+  const timeDiff = parseInt(diffDay)
+    ? diffDay
+    : parseInt(diffHour)
+    ? diffHour
+    : parseInt(diffMin)
+    ? diffMin
+    : diffSec;
+
+  return (
+    <IonItem
+      href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
+      target="_blank"
+    >
+      <IonAvatar slot="start">
+        <IonImg src={tweet.user.profile_image_url} />
+      </IonAvatar>
+      <div>
+        <IonLabel className="f-18 m-t-5">
+          {tweet.user.name}
+          <span slot="end" className="posted">
+            {timeDiff} ago
+          </span>
+        </IonLabel>
+        <p className="dark-gray m-t-5 m-b-5">{tweet.text}</p>
+        {tweet.entities.urls.length > 0 && (
+          <IonButton
+            className="m-b-10"
+            href={tweet.entities.urls[0].url}
+            target="_blank"
+          >
+            Apply
+          </IonButton>
+        )}
+      </div>
+    </IonItem>
+  );
+};
 
 export default Gig;
