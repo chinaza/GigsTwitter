@@ -18,7 +18,7 @@ import UiCtrl from "../services/control-board";
 import Http from "../services/http";
 
 export default class Home extends Component {
-  http = new Http("http://localhost:3000/api/gigs-twitter");
+  http = new Http("/api/gigs-twitter");
 
   state = {
     q: "",
