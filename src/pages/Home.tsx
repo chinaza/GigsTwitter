@@ -2,6 +2,7 @@ import {
   IonContent,
   IonFooter,
   IonHeader,
+  IonImg,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonLabel,
@@ -9,6 +10,7 @@ import {
   IonListHeader,
   IonPage,
   IonSearchbar,
+  IonThumbnail,
   IonTitle,
   IonToolbar
 } from "@ionic/react";
@@ -105,7 +107,13 @@ export default class Home extends Component {
     return (
       <IonPage>
         <IonHeader>
-          <IonToolbar color="primary">
+          <IonToolbar color="primary" style={{ padding: "10px 10px 2px 10px" }}>
+            <IonThumbnail
+              slot="start"
+              style={{ borderRadius: "30%", background: "white", padding: 5 }}
+            >
+              <IonImg src="/assets/icon/favicon.png" />
+            </IonThumbnail>
             <IonSearchbar
               onIonChange={this.setQ}
               onKeyUp={this.search}
@@ -114,7 +122,6 @@ export default class Home extends Component {
               value={q}
               animated={true}
               placeholder="Role (e.g. Customer Service)"
-              style={{ marginTop: 10 }}
             />
           </IonToolbar>
         </IonHeader>
