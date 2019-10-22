@@ -22,6 +22,10 @@ export default class Home extends Component {
 
   state = {
     q: "",
+    position: {
+      latitude: "",
+      longitude: ""
+    },
     tweets: []
   };
 
@@ -34,7 +38,15 @@ export default class Home extends Component {
       navigator.geolocation.getCurrentPosition(
         pos => {
           loading.dismiss();
-          resolve(pos.coords);
+          this.setState(
+            {
+              position: {
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude
+              }
+            },
+            () => resolve(pos.coords)
+          );
         },
         err => {
           loading.dismiss();
@@ -44,15 +56,14 @@ export default class Home extends Component {
     });
 
   loadData = async () => {
-    const { q } = this.state;
+    const { q, position } = this.state;
 
     const loading = await UiCtrl.presentLoading();
     try {
-      let locData: any = await this.getLocation();
-      const pos = locData.latitude
+      const pos = position.latitude
         ? {
-            latitude: Number(locData.latitude),
-            longitude: Number(locData.longitude)
+            latitude: Number(position.latitude),
+            longitude: Number(position.longitude)
           }
         : false;
 
@@ -75,6 +86,10 @@ export default class Home extends Component {
 
   setQ = (e: any) => {
     this.setState({ q: e.target.value });
+  };
+
+  resetQ = () => {
+    this.setState({ q: "" }, () => this.loadData());
   };
 
   search = (e: any) => {
@@ -122,7 +137,7 @@ export default class Home extends Component {
         </IonContent>
         <IonFooter mode="ios">
           <IonToolbar color="default" mode="ios">
-            <IonTitle>#GigsTwitter</IonTitle>
+            <IonTitle onClick={this.resetQ}>#GigsTwitter</IonTitle>
           </IonToolbar>
         </IonFooter>
       </IonPage>
