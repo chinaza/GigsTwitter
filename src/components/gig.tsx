@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 import React from "react";
 
-const Gig: React.FC<{ tweet: any }> = ({ tweet }) => {
+const Gig: React.FC<{ tweet: any; onClick: any }> = ({ tweet, onClick }) => {
   const diffDay =
     differenceInDays(new Date(), new Date(tweet.created_at)) + "d";
   const diffHour =
@@ -27,6 +27,7 @@ const Gig: React.FC<{ tweet: any }> = ({ tweet }) => {
 
   return (
     <IonItem
+      onClick={() => onClick(tweet.id_str)}
       href={`https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`}
       target="_blank"
     >

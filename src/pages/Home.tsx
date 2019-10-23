@@ -86,6 +86,18 @@ export default class Home extends Component {
     }
   };
 
+  logTweet = async (id: string) => {
+    try {
+      await this.http.makeRequest({
+        url: "/log/gigclick",
+        method: "post",
+        data: {
+          twId: id
+        }
+      });
+    } catch (error) {}
+  };
+
   setQ = (e: any) => {
     this.setState({ q: e.target.value });
   };
@@ -137,7 +149,7 @@ export default class Home extends Component {
                 </IonListHeader>
                 {tweets.map((t, i) => (
                   <div key={i}>
-                    <Gig tweet={t} />
+                    <Gig tweet={t} onClick={this.logTweet} />
                     {/* {i % 4 === 0 ? <Ad /> : null} */}
                   </div>
                 ))}
