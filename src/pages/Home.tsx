@@ -15,6 +15,7 @@ import {
   IonToolbar
 } from "@ionic/react";
 import React, { Component } from "react";
+import Ad from "../components/ad";
 import Gig from "../components/gig";
 import UiCtrl from "../services/control-board";
 import Http from "../services/http";
@@ -136,7 +137,10 @@ export default class Home extends Component {
                   <IonLabel>TWITTER RECENT GIGS</IonLabel>
                 </IonListHeader>
                 {tweets.map((t, i) => (
-                  <Gig tweet={t} key={i} />
+                  <div key={i}>
+                    <Gig tweet={t} />
+                    {i % 4 === 0 ? <Ad /> : null}
+                  </div>
                 ))}
               </IonList>
             </IonInfiniteScrollContent>
