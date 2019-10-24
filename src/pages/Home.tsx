@@ -112,7 +112,7 @@ export default withRouter(
       if (e.key.toLowerCase() === "enter") this.loadData();
     };
 
-    async componentDidMount() {
+    async componentWillMount() {
       let search = new URLSearchParams(this.props.location.search);
       let q = search.get("q");
 
