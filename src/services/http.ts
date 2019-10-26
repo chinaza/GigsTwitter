@@ -1,14 +1,15 @@
 import axios from "axios";
 
 class Http {
-  constructor(baseURL, headers) {
+  http: any;
+  constructor(baseURL: string, headers: any) {
     this.http = axios.create({
       baseURL,
       headers
     });
   }
 
-  async makeRequest({ url, data = {}, method = "get", headers = {} }) {
+  async makeRequest({ url = "", data = {}, method = "get", headers = {} }) {
     try {
       const reqParams = { [method === "get" ? "params" : "data"]: data };
 

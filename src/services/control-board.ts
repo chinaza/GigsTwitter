@@ -5,10 +5,10 @@ const ev = new EventEmitter();
 
 export default {
   ev,
-  announce(channel, data) {
+  announce(channel: string, data: any) {
     this.ev.emit(channel, data);
   },
-  async presentAlert(message) {
+  async presentAlert(message: string) {
     const alert = await alertController.create({
       header: "Notification",
       message,
