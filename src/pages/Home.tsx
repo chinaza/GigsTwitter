@@ -30,18 +30,17 @@ export default withRouter(
         latitude: "",
         longitude: ""
       },
-      tweets: []
+      tweets: [],
+      loaded: false
     };
 
     getLocation = () =>
       new Promise(async (resolve, reject) => {
-        const loading = await UiCtrl.presentLoading();
         if (!navigator.geolocation) return false;
 
         // Get the user's current position
         navigator.geolocation.getCurrentPosition(
           pos => {
-            loading.dismiss();
             this.setState(
               {
                 position: {
@@ -53,7 +52,6 @@ export default withRouter(
             );
           },
           err => {
-            loading.dismiss();
             resolve(false);
           }
         );
@@ -80,10 +78,11 @@ export default withRouter(
           }
         });
 
-        this.setState({ tweets: response.data.tweets });
+        this.setState({ tweets: response.data.tweets, loaded: true });
         loading.dismiss();
       } catch (error) {
         UiCtrl.presentAlert(error.message);
+        this.setState({ loaded: true });
         loading.dismiss();
       }
     };
@@ -126,7 +125,7 @@ export default withRouter(
       this.loadData();
     }
     render() {
-      const { tweets, q } = this.state;
+      const { loaded, tweets, q } = this.state;
       return (
         <IonPage>
           <IonHeader>
