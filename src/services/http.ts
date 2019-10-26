@@ -2,7 +2,7 @@ import axios from "axios";
 
 class Http {
   http: any;
-  constructor(baseURL: string, headers: any) {
+  constructor(baseURL: string, headers?: any) {
     this.http = axios.create({
       baseURL,
       headers

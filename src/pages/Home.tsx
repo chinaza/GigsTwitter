@@ -38,9 +38,11 @@ export default withRouter(
       new Promise(async (resolve, reject) => {
         if (!navigator.geolocation) return false;
 
+        const loading = await UiCtrl.presentLoading();
         // Get the user's current position
         navigator.geolocation.getCurrentPosition(
           pos => {
+            loading.dismiss();
             this.setState(
               {
                 position: {
@@ -52,6 +54,7 @@ export default withRouter(
             );
           },
           err => {
+            loading.dismiss();
             resolve(false);
           }
         );
@@ -113,16 +116,12 @@ export default withRouter(
 
     async componentWillMount() {
       let search = new URLSearchParams(this.props.location.search);
-      let q = search.get("q");
+      let q = search.get("q") || "";
 
-      if (q)
-        return this.setState({ q }, async () => {
-          await this.getLocation();
-          this.loadData();
-        });
-
-      await this.getLocation();
-      this.loadData();
+      this.setState({ q }, async () => {
+        await this.getLocation();
+        this.loadData();
+      });
     }
     render() {
       const { loaded, tweets, q } = this.state;
