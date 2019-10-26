@@ -14,7 +14,7 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from "./pages/Home";
 import "./theme/style.css";
 /* Theme variables */
@@ -25,7 +25,7 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/home" component={Home} exact={true} />
-        <Route exact={true} path="/" render={() => <Redirect to="/home" />} />
+        <Route exact={true} path="/" component={Home} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
